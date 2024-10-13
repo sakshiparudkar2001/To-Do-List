@@ -1,0 +1,158 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-8">
+      <!--user list-->
+      <div class="card">
+        <div class="card-header bg-light">
+          <div class="row">
+            <div class="col-6 text-white">
+              <h6 class="p-2 text-primary" style="font-size: 24px">
+                User List
+              </h6>
+            </div>
+            <div class="col-6 text-end">
+              <button class="btn btn-info bg-primary text-white">
+                Add User
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Assigned To</th>
+                <th>DueDate</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Comments</th>
+                <th>Action</th>
+                <!-- Added this column header -->
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of userList; track $index) {
+              <tr>
+                <td>{{ item.assignedTo }}</td>
+                <td>{{ item.DueDate }}</td>
+                <td>{{ item.Priority }}</td>
+                <td>{{ item.Status }}</td>
+                <!-- This is for the Status field -->
+                <td>{{ item.Comments }}</td>
+                <!-- This is for the Comments field -->
+                <td class="text-center">
+                  <!-- This is for the Action field -->
+                  <i
+                    class="fa fa-edit text-primary px-4"
+                    (click)="onEdit(item)"
+                  ></i>
+                  <i
+                    class="fa fa-trash text-danger"
+                    (click)="onDelete(item.id)"
+                  ></i>
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-4">
+      <!--user form-->
+      <div class="card">
+        <div class="card-header bg-light">
+          <div class="row">
+            <div class="col-6 text-white">
+              <h6 class="p-2 text-primary" style="font-size: 24px">
+                {{ editMode ? "Update User" : "Add User" }}
+              </h6>
+            </div>
+            <div class="col-6 text-end">
+              <button
+                class="btn btn-info bg-primary text-white"
+                (click)="onResetForm(userForm)"
+              >
+                RESET
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <form
+            class="row g-3"
+            #userForm="ngForm"
+            (ngSubmit)="onSubmit(userForm)"
+          >
+            <div class="col-6">
+              <select
+                class="form-select"
+                name="assignedTo"
+                required
+                [(ngModel)]="user.assignedTo"
+              >
+                <option value="">Assigned To</option>
+                @for (item of departmentList; track $index) {
+                <option>{{ item }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="col-6">
+              <input
+                type="date"
+                class="form-control"
+                [(ngModel)]="user.DueDate"
+                name="DueDate"
+                required
+                placeholder="DueDate"
+              />
+            </div>
+
+            <div class="col-6">
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="user.Priority"
+                name="Priority"
+                required
+                placeholder="Priority"
+              />
+            </div>
+            <div class="col-6">
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="user.Status"
+                name="Status"
+                required
+                placeholder="Status"
+              />
+            </div>
+
+            <div class="col-12">
+              <textarea
+                cols="5"
+                class="form-control"
+                rows="3"
+                [(ngModel)]="user.Comments"
+                name="Comments"
+                required
+                placeholder="Comments"
+              >
+              </textarea>
+            </div>
+
+            <div class="col-12">
+              <button class="btn btn-primary w-100" type="submit">
+                {{ editMode ? "Update" : "Save" }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+      
+  </div>
+</div>
